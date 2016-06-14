@@ -3,12 +3,8 @@
 #include <cstdlib>
 
 // Initializes the fitness function.
-GeneticIndividual::GeneticIndividual(const std::string& parentAChromosome, const std::string& parentBChromosome) {
-    if (!parentBChromosome.empty()) {
-        crossover(parentAChromosome, parentBChromosome);
-    } else {
-        chromosome = parentAChromosome;
-    }
+GeneticIndividual::GeneticIndividual(const std::string& desiredChromosome) {
+    chromosome = desiredChromosome;
 }
 
 double GeneticIndividual::getFitnessScore() {
@@ -20,13 +16,12 @@ void GeneticIndividual::setFitnessFunction(double (*fitness)(std::string)) {
     this -> fitness = fitness;
 }
 
-// Crosses two chromosomes into a single one.
-void GeneticIndividual::crossover(const std::string& parentAChromosome, const std::string& parentBChromosome) {
-
-}
-
 std::string GeneticIndividual::getChromosome() {
     return chromosome;
+}
+
+void GeneticIndividual::setChromosome(std::string desiredChromosome) {
+    chromosome = desiredChromosome
 }
 
 // The fitness score of the individual is calculated every time the fitness function or chromosome is changed.

@@ -8,13 +8,13 @@ class GeneticIndividual {
         double fitnessScore;
         double (*fitness)(std::string);
     public:
-        GeneticIndividual(const std::string& parentAChromosome, const std::string& parentBChromosome = "");
+        GeneticIndividual(const std::string& parentAChromosome);
         void setFitnessFunction(double (*fitness)(std::string));
-        void crossover(const std::string& parentAChromosome, const std::string& parentBChromosome);
         double getFitnessScore();
         void updateFitnessScore();
         bool mutate(double mutationRate);
         std::string getChromosome();
+        void setChromosome(std::string desiredChromosome);
 };
 
 #endif
