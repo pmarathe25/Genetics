@@ -1,9 +1,9 @@
-#include "GeneticIndividual.h"
+#include "geneticIndividual.h"
 #include <time.h>
 #include <cstdlib>
 
 // Initializes the fitness function.
-GeneticIndividual::GeneticIndividual(const std::string& parentAChromosome, const std::string& parentBChromosome = "") {
+GeneticIndividual::GeneticIndividual(const std::string& parentAChromosome, const std::string& parentBChromosome) {
     if (!parentBChromosome.empty()) {
         crossover(parentAChromosome, parentBChromosome);
     } else {
@@ -18,13 +18,11 @@ double GeneticIndividual::getFitnessScore() {
 // Updates the fitness function.
 void GeneticIndividual::setFitnessFunction(double (*fitness)(std::string)) {
     this -> fitness = fitness;
-    calculateFitness();
 }
 
 // Crosses two chromosomes into a single one.
-void crossover(const std::string& parentAChromosome, const std::string& parentBChromosome) {
+void GeneticIndividual::crossover(const std::string& parentAChromosome, const std::string& parentBChromosome) {
 
-    calculateFitness();
 }
 
 std::string GeneticIndividual::getChromosome() {
@@ -32,7 +30,7 @@ std::string GeneticIndividual::getChromosome() {
 }
 
 // The fitness score of the individual is calculated every time the fitness function or chromosome is changed.
-void GeneticIndividual::calculateFitness() {
+void GeneticIndividual::updateFitnessScore() {
     if (fitness) {
         fitnessScore = (*fitness)(chromosome);
     }
@@ -41,6 +39,5 @@ void GeneticIndividual::calculateFitness() {
 bool GeneticIndividual::mutate(double mutationRate) {
     bool mutated = false;
 
-    calculateFitness();
     return mutated;
 }
