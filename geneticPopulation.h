@@ -10,8 +10,9 @@ class GeneticPopulation {
     public:
         GeneticPopulation(const std::vector<GeneticIndividual>& initialPopulation = {});
         void evolve(double (*fitness)(std::string), const int& crossoverRate, const int& mutationRate);
-        std::vector<GeneticIndividual> generatePopulation(const std::string& geneticElements, const int& chromosomeLength, const int& populationSize);
+        std::vector<GeneticIndividual> generatePopulation(const int& populationSize, const std::string& geneticElements, const int& chromosomeLength);
         std::string generateChromosome(const std::string& geneticElements, const int& chromosomeLength);
+        std::string onePointCrossover(const std::string& parentAChromosome, const std::string& parentBChromosome);
 };
 
 #endif

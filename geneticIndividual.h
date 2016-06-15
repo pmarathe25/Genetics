@@ -12,9 +12,9 @@ class GeneticIndividual {
         void setFitnessFunction(double (*fitness)(std::string));
         double getFitnessScore();
         void updateFitnessScore();
-        bool mutate(double mutationRate);
         std::string getChromosome();
         void setChromosome(std::string desiredChromosome);
+        bool mutate(double mutationRate);
 };
 
 #endif

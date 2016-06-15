@@ -20,7 +20,7 @@ void GeneticPopulation::evolve(double (*fitness)(std::string), const int& crosso
     // Apply mutations.
 }
 
-std::vector<GeneticIndividual> GeneticPopulation::generatePopulation(const std::string& geneticElements, const int& chromosomeLength, const int& populationSize) {
+std::vector<GeneticIndividual> GeneticPopulation::generatePopulation(const int& populationSize, const std::string& geneticElements, const int& chromosomeLength) {
     srand(time(0));
     // Empty the population.
     std::vector<GeneticIndividual> individuals;
@@ -41,4 +41,17 @@ std::string GeneticPopulation::generateChromosome(const std::string& geneticElem
         chromosome.push_back(geneticElements[rand() % geneticElements.size()]);
     }
     return chromosome;
+}
+
+// Crosses two chromosomes into a single one.
+std::string GeneticPopulation::onePointCrossover(const std::string& parentAChromosome, const std::string& parentBChromosome) {
+    srand(time(0));
+    int crossoverPoint = rand() % parentAChromosome.size();
+    std::string newChromosome;
+    if (rand() % 2) {
+        newChromosome += parentAChromosome.substr(0, crossoverPoint) + parentBChromosome.substr(crossoverPoint);
+    } else {
+        newChromosome += parentBChromosome.substr(0, crossoverPoint) + parentAChromosome.substr(crossoverPoint);
+    }
+    return newChromosome;
 }
