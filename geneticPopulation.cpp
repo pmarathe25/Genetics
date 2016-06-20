@@ -7,29 +7,27 @@ GeneticPopulation::GeneticPopulation(const std::vector<GeneticIndividual>& initi
 }
 
 void GeneticPopulation::evolve(double (*fitness)(std::string), const int& crossoverRate, const int& mutationRate) {
-    // Calculate fitness scores for every individual.
     std::vector<GeneticIndividual>::iterator individual = individuals.begin();
     while (individual != individuals.end()) {
+        // Calculate fitness scores for each individual.
         individual -> setFitnessFunction(fitness);
         individual -> updateFitnessScore();
-    }
-    // Remove unfit individuals.
+        // Remove unfit individuals.
 
-    // Crossover the survivors.
+    }
+    // Crossover the survivors using roulette wheel selection.
 
     // Apply mutations.
 }
 
-std::vector<GeneticIndividual> GeneticPopulation::generatePopulation(const int& populationSize, const std::string& geneticElements, const int& chromosomeLength) {
+void GeneticPopulation::generatePopulation(const int& populationSize, const std::string& geneticElements, const int& chromosomeLength) {
     srand(time(0));
     // Empty the population.
-    std::vector<GeneticIndividual> individuals;
     individuals.clear();
     // Iterate over the number of desired individuals and generate a chromosome for each.
     for (int i = 0; i < populationSize; i++) {
         individuals.push_back(GeneticIndividual(generateChromosome(geneticElements, chromosomeLength)));
     }
-    return individuals;
 }
 
 // Generates a chromosome from the given character set.
