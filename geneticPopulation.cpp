@@ -2,25 +2,31 @@
 #include <time.h>
 #include <cstdlib>
 
-GeneticPopulation::GeneticPopulation(const std::vector<GeneticIndividual>& initialPopulation) {
+GeneticPopulation::GeneticPopulation(double (*fitness)(const GeneticIndividual&), const std::string& geneticElements, const std::vector<GeneticIndividual>& initialPopulation) {
+    this -> fitness = fitness;
+    this -> geneticElements = geneticElements;
     individuals = initialPopulation;
 }
 
-void GeneticPopulation::evolve(double (*fitness)(std::string), const int& crossoverRate, const int& mutationRate) {
-    std::vector<GeneticIndividual>::iterator individual = individuals.begin();
-    while (individual != individuals.end()) {
+void GeneticPopulation::evolve(const int& mutationRate) {
+    for (std::vector<GeneticIndividual>::iterator individual = individuals.begin(); individual != individuals.end(); individual++) {
         // Calculate fitness scores for each individual.
-        individual -> setFitnessFunction(fitness);
-        individual -> updateFitnessScore();
-        // Remove unfit individuals.
-
+        individual -> setFitnessScore((*fitness) (*individual));
+        // Remove unfit individuals according to probability of survival.
+        if ((rand() / RAND_MAX) > (individual -> getFitnessScore())) {
+            individuals.erase(individual);
+        }
     }
-    // Crossover the survivors using roulette wheel selection.
+    // Crossover the survivors according to their fitness.
 
     // Apply mutations.
 }
 
-void GeneticPopulation::generatePopulation(const int& populationSize, const std::string& geneticElements, const int& chromosomeLength) {
+void setFitnessFunction(double (*fitness)(const GeneticIndividual&)) {
+    this -> fitness = fitness;
+}
+
+void GeneticPopulation::generatePopulation(const int& populationSize, const int& chromosomeLength) {
     srand(time(0));
     // Empty the population.
     individuals.clear();
@@ -30,8 +36,8 @@ void GeneticPopulation::generatePopulation(const int& populationSize, const std:
     }
 }
 
-// Generates a chromosome from the given character set.
-std::string GeneticPopulation::generateChromosome(const std::string& geneticElements, const int& chromosomeLength) {
+// Generates a chromosome.
+std::string GeneticPopulation::generateChromosome(const int& chromosomeLength) {
     srand(time(0));
     std::string chromosome;
     chromosome.clear();

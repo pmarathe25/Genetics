@@ -7,11 +7,14 @@
 class GeneticPopulation {
     private:
         std::vector<GeneticIndividual> individuals;
+        double (*fitness)(const GeneticIndividual&);
+        std::string geneticElements;
     public:
-        GeneticPopulation(const std::vector<GeneticIndividual>& initialPopulation = {});
-        void evolve(double (*fitness)(std::string), const int& crossoverRate, const int& mutationRate);
-        void generatePopulation(const int& populationSize, const std::string& geneticElements, const int& chromosomeLength);
-        std::string generateChromosome(const std::string& geneticElements, const int& chromosomeLength);
+        GeneticPopulation(double (*fitness)(const GeneticIndividual&), const std::string& geneticElements = "01", const std::vector<GeneticIndividual>& initialPopulation = {});
+        void evolve(const int& mutationRate);
+        void setFitnessFunction(double (*fitness)(const GeneticIndividual&));
+        void generatePopulation(const int& populationSize, const int& chromosomeLength);
+        std::string generateChromosome(const int& chromosomeLength);
         std::string onePointCrossover(const std::string& parentAChromosome, const std::string& parentBChromosome);
 };
 

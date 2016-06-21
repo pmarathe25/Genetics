@@ -16,19 +16,12 @@ void GeneticIndividual::setChromosome(std::string desiredChromosome) {
 }
 
 // The fitness score of the individual is calculated every time the fitness function or chromosome is changed.
-void GeneticIndividual::updateFitnessScore() {
-    if (fitness) {
-        fitnessScore = (*fitness)(chromosome);
-    }
+void GeneticIndividual::setFitnessScore(double newScore) {
+    fitnessScore = newScore;
 }
 
 double GeneticIndividual::getFitnessScore() {
     return fitnessScore;
-}
-
-// Updates the fitness function.
-void GeneticIndividual::setFitnessFunction(double (*fitness)(std::string)) {
-    this -> fitness = fitness;
 }
 
 bool GeneticIndividual::mutate(double mutationRate) {

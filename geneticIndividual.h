@@ -6,12 +6,10 @@ class GeneticIndividual {
     private:
         std::string chromosome;
         double fitnessScore;
-        double (*fitness)(std::string);
     public:
-        GeneticIndividual(const std::string& parentAChromosome);
-        void setFitnessFunction(double (*fitness)(std::string));
+        GeneticIndividual(const std::string& desiredChromosome);
         double getFitnessScore();
-        void updateFitnessScore();
+        void setFitnessScore(double newScore);
         std::string getChromosome();
         void setChromosome(std::string desiredChromosome);
         bool mutate(double mutationRate);
