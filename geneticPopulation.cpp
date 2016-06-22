@@ -5,57 +5,57 @@
 GeneticPopulation::GeneticPopulation(double (*fitness)(const GeneticIndividual&), const std::string& geneticElements, const std::vector<GeneticIndividual>& initialPopulation) {
     this -> fitness = fitness;
     this -> geneticElements = geneticElements;
-    individuals = initialPopulation;
+    this -> individuals = initialPopulation;
+    // Calculate fitness scores if an initial population is provided.
+    if (!individuals.empty()) {
+        for (std::vector<GeneticIndividual>::iterator individual = individuals.begin(); individual != individuals.end(); individual++) {
+            individual -> setFitnessScore((*fitness)(*individual));
+        }
+    }
+}
+
+GeneticPopulation::GeneticPopulation(double (*fitness)(const GeneticIndividual&), const std::string& geneticElements, const int& populationSize, const int& chromosomeLength) {
+    this -> fitness = fitness;
+    this -> geneticElements = geneticElements;
+    srand(time(0));
+    // Empty the population.
+    individuals.clear();
+    // Iterate over the number of desired individuals and generate a chromosome for each. Then calculate fitness score.
+    for (int i = 0; i < populationSize; i++) {
+        GeneticIndividual individual = GeneticIndividual();
+        individual.generateChromosome(geneticElements, chromosomeLength);
+        individual.setFitnessScore((*fitness)(individual));
+        individuals.push_back(individual);
+    }
 }
 
 void GeneticPopulation::evolve(const int& mutationRate) {
-    for (std::vector<GeneticIndividual>::iterator individual = individuals.begin(); individual != individuals.end(); individual++) {
-        // Calculate fitness scores for each individual.
-        individual -> setFitnessScore((*fitness) (*individual));
+    std::vector<GeneticIndividual>::iterator populationEndpoint = individuals.end();
+    for (std::vector<GeneticIndividual>::iterator individual = individuals.begin(); individual != populationEndpoint; individual++) {
         // Remove unfit individuals according to probability of survival.
         if ((rand() / RAND_MAX) > (individual -> getFitnessScore())) {
             individuals.erase(individual);
         }
+        // Crossover the survivors according to their fitness.
+
     }
-    // Crossover the survivors according to their fitness.
 
     // Apply mutations.
 }
 
-void setFitnessFunction(double (*fitness)(const GeneticIndividual&)) {
+void GeneticPopulation::setFitnessFunction(double (*fitness)(const GeneticIndividual&)) {
     this -> fitness = fitness;
 }
 
-void GeneticPopulation::generatePopulation(const int& populationSize, const int& chromosomeLength) {
-    srand(time(0));
-    // Empty the population.
-    individuals.clear();
-    // Iterate over the number of desired individuals and generate a chromosome for each.
-    for (int i = 0; i < populationSize; i++) {
-        individuals.push_back(GeneticIndividual(generateChromosome(geneticElements, chromosomeLength)));
-    }
-}
-
-// Generates a chromosome.
-std::string GeneticPopulation::generateChromosome(const int& chromosomeLength) {
-    srand(time(0));
-    std::string chromosome;
-    chromosome.clear();
-    for (int j = 0; j < chromosomeLength; j++) {
-        chromosome.push_back(geneticElements[rand() % geneticElements.size()]);
-    }
-    return chromosome;
-}
-
 // Crosses two chromosomes into a single one.
-std::string GeneticPopulation::onePointCrossover(const std::string& parentAChromosome, const std::string& parentBChromosome) {
+GeneticIndividual GeneticPopulation::onePointCrossover(const GeneticIndividual& parentA, const GeneticIndividual& parentB) {
     srand(time(0));
-    int crossoverPoint = rand() % parentAChromosome.size();
+    int crossoverPoint = rand() % parentA.getChromosome().size();
     std::string newChromosome;
     if (rand() % 2) {
-        newChromosome += parentAChromosome.substr(0, crossoverPoint) + parentBChromosome.substr(crossoverPoint);
+        newChromosome += parentA.getChromosome().substr(0, crossoverPoint) + parentB.getChromosome().substr(crossoverPoint);
     } else {
-        newChromosome += parentBChromosome.substr(0, crossoverPoint) + parentAChromosome.substr(crossoverPoint);
+        newChromosome += parentB.getChromosome().substr(0, crossoverPoint) + parentA.getChromosome().substr(crossoverPoint);
     }
-    return newChromosome;
+    return GeneticIndividual(newChromosome);
 }

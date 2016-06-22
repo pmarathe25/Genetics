@@ -7,12 +7,13 @@ class GeneticIndividual {
         std::string chromosome;
         double fitnessScore;
     public:
-        GeneticIndividual(const std::string& desiredChromosome);
+        GeneticIndividual(const std::string& desiredChromosome = "");
+        GeneticIndividual(std::string geneticElements, const int& chromosomeLength);
         double getFitnessScore();
         void setFitnessScore(double newScore);
         std::string getChromosome();
         void setChromosome(std::string desiredChromosome);
-        bool mutate(double mutationRate);
+        bool mutate(double mutationRate, const std::string& geneticElements);
 };
 
 #endif
