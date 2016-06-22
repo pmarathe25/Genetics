@@ -16,7 +16,7 @@ GeneticIndividual(std::string geneticElements, const int& chromosomeLength) {
     }
 }
 
-std::string GeneticIndividual::getChromosome() {
+std::string GeneticIndividual::getChromosome() const {
     return chromosome;
 }
 
@@ -29,7 +29,7 @@ void GeneticIndividual::setFitnessScore(double newScore) {
     fitnessScore = newScore;
 }
 
-double GeneticIndividual::getFitnessScore() {
+double GeneticIndividual::getFitnessScore() const {
     return fitnessScore;
 }
 

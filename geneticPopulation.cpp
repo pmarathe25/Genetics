@@ -22,8 +22,7 @@ GeneticPopulation::GeneticPopulation(double (*fitness)(const GeneticIndividual&)
     individuals.clear();
     // Iterate over the number of desired individuals and generate a chromosome for each. Then calculate fitness score.
     for (int i = 0; i < populationSize; i++) {
-        GeneticIndividual individual = GeneticIndividual();
-        individual.generateChromosome(geneticElements, chromosomeLength);
+        GeneticIndividual individual = GeneticIndividual(geneticElements, chromosomeLength);
         individual.setFitnessScore((*fitness)(individual));
         individuals.push_back(individual);
     }

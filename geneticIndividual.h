@@ -9,9 +9,9 @@ class GeneticIndividual {
     public:
         GeneticIndividual(const std::string& desiredChromosome = "");
         GeneticIndividual(std::string geneticElements, const int& chromosomeLength);
-        double getFitnessScore();
+        double getFitnessScore() const;
         void setFitnessScore(double newScore);
-        std::string getChromosome();
+        std::string getChromosome() const;
         void setChromosome(std::string desiredChromosome);
         bool mutate(double mutationRate, const std::string& geneticElements);
 };
