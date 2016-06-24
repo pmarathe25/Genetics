@@ -47,7 +47,7 @@ void GeneticPopulation::evolve(const int& mutationRate, std::string crossoverMet
             individuals.push_back(GeneticIndividual(individuals[a], individuals[b]), crossoverMethod);
         }
         // Apply mutations.
-
+        individual -> mutate(mutationRate, geneticElements);
     }
 }
 
