@@ -35,11 +35,20 @@ void GeneticPopulation::evolve(const int& mutationRate, std::string crossoverMet
         if ((rand() / RAND_MAX) > (individual -> getFitnessScore())) {
             individuals.erase(individual);
         }
-        // Crossover the survivors according to their fitness.
+        // Choose two distinct individuals to cross.
+        int a = rand() % individuals.size();
+        int b = rand() % individuals.size() - 1;
+        // if b is the same as a (therefore a cannot be individuals.size()) set b to something else.
+        if (b == a) {
+            b = individuals.size();
+        }
+        // Crossover the survivors if they are fit enough.
+        if ((rand() / RAND_MAX) > (individuals[a].getFitnessScore() * individuals[b].getFitnessScore())) {
+            individuals.push_back(GeneticIndividual(individuals[a], individuals[b]), crossoverMethod);
+        }
+        // Apply mutations.
 
     }
-
-    // Apply mutations.
 }
 
 void GeneticPopulation::setFitnessFunction(double (*fitness)(const GeneticIndividual&)) {

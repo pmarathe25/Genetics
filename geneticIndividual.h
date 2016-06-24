@@ -8,7 +8,7 @@ class GeneticIndividual {
         double fitnessScore;
     public:
         GeneticIndividual(std::string geneticElements, const int& chromosomeLength);
-        GeneticIndividual(const GeneticIndividual& parentA, const GeneticIndividual& parentB, const std::string& crossoverMethod);
+        GeneticIndividual(const GeneticIndividual& parentA, const GeneticIndividual& parentB, const std::string& crossoverMethod = "single");
         GeneticIndividual(const std::string& desiredChromosome);
         std::string getChromosome() const;
         void setChromosome(std::string desiredChromosome);
