@@ -1,7 +1,6 @@
 #include "geneticIndividual.h"
 #include <time.h>
 #include <cstdlib>
-#include <iostream>
 
 GeneticIndividual::GeneticIndividual(std::string geneticElements, const int& chromosomeLength) {
     chromosome.clear();
@@ -42,9 +41,6 @@ void GeneticIndividual::setFitnessScore(double newScore) {
 std::string GeneticIndividual::onePointCrossover(const GeneticIndividual& parentA, const GeneticIndividual& parentB) {
     // The crossover point cannot be the first or last element of the chromosome.
     int crossoverPoint = (rand() % (parentA.getChromosome().size() - 2)) + 1;
-    std::cout << "Crossing over at " << crossoverPoint << std::endl;
-    std::cout << "Parent A: " << parentA.getChromosome() << std::endl;
-    std::cout << "Parent B: " << parentB.getChromosome() << std::endl;
     std::string newChromosome = "";
     if (rand() % 2) {
         newChromosome += parentA.getChromosome().substr(0, crossoverPoint) + parentB.getChromosome().substr(crossoverPoint);
@@ -56,7 +52,6 @@ std::string GeneticIndividual::onePointCrossover(const GeneticIndividual& parent
 
 bool GeneticIndividual::mutate(double mutationRate, const std::string& geneticElements) {
     bool mutated = false;
-    //test
     // Replace genes accorrding to mutation rate.
     for (int i = 0; i < chromosome.size(); i++) {
         if (((double) rand() / RAND_MAX) < mutationRate) {

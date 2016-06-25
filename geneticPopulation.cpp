@@ -1,7 +1,6 @@
 #include "geneticPopulation.h"
 #include <time.h>
 #include <cstdlib>
-#include <iostream>
 
 GeneticPopulation::GeneticPopulation(double (*fitness)(const GeneticIndividual&), const std::string& geneticElements, const std::vector<GeneticIndividual>& initialPopulation) {
     srand(time(0));
