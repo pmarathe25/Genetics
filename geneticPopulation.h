@@ -9,6 +9,7 @@ class GeneticPopulation {
         std::vector<GeneticIndividual> individuals;
         double (*fitness)(const GeneticIndividual&);
         std::string geneticElements;
+        void updateFitness(GeneticIndividual& individual);
     public:
         GeneticPopulation(double (*fitness)(const GeneticIndividual&), const std::string& geneticElements, const std::vector<GeneticIndividual>& initialPopulation);
         GeneticPopulation(double (*fitness)(const GeneticIndividual&), const std::string& geneticElements, const int& populationSize, const int& chromosomeLength);

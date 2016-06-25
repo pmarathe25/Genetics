@@ -1,12 +1,12 @@
 #include "geneticIndividual.h"
 #include <time.h>
 #include <cstdlib>
+#include <iostream>
 
 GeneticIndividual::GeneticIndividual(std::string geneticElements, const int& chromosomeLength) {
-    srand(time(0));
     chromosome.clear();
     // Generate a new chromosome with the specified parameters.
-    for (int j = 0; j < chromosomeLength; j++) {
+    for (int i = 0; i < chromosomeLength; i++) {
         chromosome.push_back(geneticElements[rand() % geneticElements.size()]);
     }
 }
@@ -40,10 +40,12 @@ void GeneticIndividual::setFitnessScore(double newScore) {
 
 // Crosses two chromosomes into a single one.
 std::string GeneticIndividual::onePointCrossover(const GeneticIndividual& parentA, const GeneticIndividual& parentB) {
-    srand(time(0));
     // The crossover point cannot be the first or last element of the chromosome.
     int crossoverPoint = (rand() % (parentA.getChromosome().size() - 2)) + 1;
-    std::string newChromosome;
+    std::cout << "Crossing over at " << crossoverPoint << std::endl;
+    std::cout << "Parent A: " << parentA.getChromosome() << std::endl;
+    std::cout << "Parent B: " << parentB.getChromosome() << std::endl;
+    std::string newChromosome = "";
     if (rand() % 2) {
         newChromosome += parentA.getChromosome().substr(0, crossoverPoint) + parentB.getChromosome().substr(crossoverPoint);
     } else {
@@ -53,11 +55,11 @@ std::string GeneticIndividual::onePointCrossover(const GeneticIndividual& parent
 }
 
 bool GeneticIndividual::mutate(double mutationRate, const std::string& geneticElements) {
-    srand(time(0));
     bool mutated = false;
     // Replace genes accorrding to mutation rate.
-    for (int i = 0; i < chromosome.length(); i++) {
-        if ((rand() / RAND_MAX) < mutationRate) {
+    for (int i = 0; i < chromosome.size(); i++) {
+        if (((double) rand() / RAND_MAX) < mutationRate) {
+            mutated = true;
             chromosome[i] = geneticElements[rand() % geneticElements.size()];
         }
     }
