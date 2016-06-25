@@ -30,19 +30,22 @@ GeneticPopulation::GeneticPopulation(double (*fitness)(const GeneticIndividual&)
     }
 }
 
-void GeneticPopulation::evolve(const int& mutationRate, std::string crossoverMethod) {
+bool GeneticPopulation::evolve(const int& mutationRate, std::string crossoverMethod) {
+    bool populationAlive = false;
     std::vector<GeneticIndividual>::iterator populationEndpoint = individuals.end();
-    for (std::vector<GeneticIndividual>::iterator individual = individuals.begin(); individual != populationEndpoint; individual++) {
+    // Stop when we reach the end of the old generation or when the population is destroyed (i.e. one or fewer individuals remaining).
+    for (std::vector<GeneticIndividual>::iterator individual = individuals.begin(); individual != populationEndpoint && individuals.size() > 1; individual++) {
+        populationAlive = true;
         // Remove unfit individuals according to probability of survival.
         if (((double) rand() / RAND_MAX) > (individual -> getFitnessScore())) {
             individuals.erase(individual);
         }
         // Choose two distinct individuals to cross.
         int a = rand() % individuals.size();
-        int b = rand() % (individuals.size() - 1);
-        // if b is the same as a (therefore a cannot be individuals.size() - 1) set b to something else.
+        int b = rand() % individuals.size();
+        // if b is the same as a, set b to something else.
         if (b == a) {
-            b = individuals.size() - 1;
+            b = (a + 1) % individuals.size();
         }
         // Crossover the survivors if they are fit enough.
         if (((double) rand() / RAND_MAX) < (individuals[a].getFitnessScore() * individuals[b].getFitnessScore())) {
@@ -55,6 +58,7 @@ void GeneticPopulation::evolve(const int& mutationRate, std::string crossoverMet
             updateFitness(*individual);
         }
     }
+    return populationAlive;
 }
 
 void GeneticPopulation::setFitnessFunction(double (*fitness)(const GeneticIndividual&)) {
