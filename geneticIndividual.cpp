@@ -2,7 +2,7 @@
 #include <time.h>
 #include <cstdlib>
 
-GeneticIndividual::GeneticIndividual(std::string geneticElements, const int& chromosomeLength) {
+GeneticIndividual::GeneticIndividual(const std::string& geneticElements, const int& chromosomeLength) {
     chromosome.clear();
     // Generate a new chromosome with the specified parameters.
     for (int i = 0; i < chromosomeLength; i++) {
