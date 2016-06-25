@@ -17,7 +17,6 @@ GeneticPopulation::GeneticPopulation(double (*fitness)(const GeneticIndividual&)
 GeneticPopulation::GeneticPopulation(double (*fitness)(const GeneticIndividual&), const std::string& geneticElements, const int& populationSize, const int& chromosomeLength) {
     this -> fitness = fitness;
     this -> geneticElements = geneticElements;
-    srand(time(0));
     // Empty the population.
     individuals.clear();
     // Iterate over the number of desired individuals and generate a chromosome for each. Then calculate fitness score.
@@ -29,6 +28,7 @@ GeneticPopulation::GeneticPopulation(double (*fitness)(const GeneticIndividual&)
 }
 
 void GeneticPopulation::evolve(const int& mutationRate, std::string crossoverMethod) {
+    srand(time(0));
     std::vector<GeneticIndividual>::iterator populationEndpoint = individuals.end();
     for (std::vector<GeneticIndividual>::iterator individual = individuals.begin(); individual != populationEndpoint; individual++) {
         // Remove unfit individuals according to probability of survival.

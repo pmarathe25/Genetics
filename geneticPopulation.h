@@ -12,7 +12,7 @@ class GeneticPopulation {
     public:
         GeneticPopulation(double (*fitness)(const GeneticIndividual&), const std::string& geneticElements, const std::vector<GeneticIndividual>& initialPopulation);
         GeneticPopulation(double (*fitness)(const GeneticIndividual&), const std::string& geneticElements, const int& populationSize, const int& chromosomeLength);
-        void evolve(const int& mutationRate, std::string crossoverMethod = "single");
+        void evolve(const int& mutationRate = 0, std::string crossoverMethod = "single");
         void setFitnessFunction(double (*fitness)(const GeneticIndividual&));
 };
 
