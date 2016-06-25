@@ -56,6 +56,7 @@ std::string GeneticIndividual::onePointCrossover(const GeneticIndividual& parent
 
 bool GeneticIndividual::mutate(double mutationRate, const std::string& geneticElements) {
     bool mutated = false;
+    //test
     // Replace genes accorrding to mutation rate.
     for (int i = 0; i < chromosome.size(); i++) {
         if (((double) rand() / RAND_MAX) < mutationRate) {
