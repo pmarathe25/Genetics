@@ -60,6 +60,13 @@ bool GeneticPopulation::evolve(const int& mutationRate, std::string crossoverMet
     return populationAlive;
 }
 
+void GeneticPopulation::display(void (*displayIndividual)(const GeneticIndividual&)) const {
+    std::cout << "Population Size: " << individuals.size() << std::endl;
+    for (std::vector<GeneticIndividual>::iterator individual = individuals.begin(); individual != populationEndpoint && individuals.size() > 1; individual++) {
+        (*displayIndividual)(*individual);
+    }
+}
+
 void GeneticPopulation::setFitnessFunction(double (*fitness)(const GeneticIndividual&)) {
     this -> fitness = fitness;
 }
