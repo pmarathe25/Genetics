@@ -1,4 +1,4 @@
-#include "geneticIndividual.h"
+#include "geneticIndividual.hpp"
 #include <time.h>
 #include <cstdlib>
 

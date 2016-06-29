@@ -1,6 +1,7 @@
-#include "geneticPopulation.h"
+#include "geneticPopulation.hpp"
 #include <time.h>
 #include <cstdlib>
+#include <iostream>
 
 GeneticPopulation::GeneticPopulation(double (*fitness)(const GeneticIndividual&), const std::string& geneticElements, const std::vector<GeneticIndividual>& initialPopulation) {
     srand(time(0));
@@ -62,7 +63,7 @@ bool GeneticPopulation::evolve(const int& mutationRate, std::string crossoverMet
 
 void GeneticPopulation::display(void (*displayIndividual)(const GeneticIndividual&)) const {
     std::cout << "Population Size: " << individuals.size() << std::endl;
-    for (std::vector<GeneticIndividual>::iterator individual = individuals.begin(); individual != populationEndpoint && individuals.size() > 1; individual++) {
+    for (std::vector<GeneticIndividual>::const_iterator individual = individuals.begin(); individual != individuals.end() && individuals.size() > 1; individual++) {
         (*displayIndividual)(*individual);
     }
 }
