@@ -1,5 +1,5 @@
 #include "geneticPopulation.hpp"
-#include <time.h>
+#include <ctime>
 #include <cstdlib>
 #include <iostream>
 

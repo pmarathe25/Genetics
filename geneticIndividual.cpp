@@ -1,5 +1,5 @@
 #include "geneticIndividual.hpp"
-#include <time.h>
+#include <ctime>
 #include <cstdlib>
 
 GeneticIndividual::GeneticIndividual(const std::string& geneticElements, const int& chromosomeLength) {
