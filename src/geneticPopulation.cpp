@@ -1,4 +1,4 @@
-#include "geneticPopulation.hpp"
+#include "Genetics/geneticPopulation.hpp"
 #include <ctime>
 #include <cstdlib>
 #include <iostream>
