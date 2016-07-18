@@ -8,14 +8,11 @@ class GeneticIndividual {
         double fitnessScore;
     public:
         GeneticIndividual(const std::string& geneticElements, const int& chromosomeLength);
-        GeneticIndividual(const GeneticIndividual& parentA, const GeneticIndividual& parentB, const std::string& crossoverMethod = "single");
         GeneticIndividual(const std::string& desiredChromosome);
         std::string getChromosome() const;
-        void setChromosome(std::string desiredChromosome);
+        void setChromosome(const std::string& desiredChromosome);
         double getFitnessScore() const;
         void setFitnessScore(double newScore);
-        std::string onePointCrossover(const GeneticIndividual& parentA, const GeneticIndividual& parentB);
-        bool mutate(double mutationRate, const std::string& geneticElements);
 };
 
 #endif
