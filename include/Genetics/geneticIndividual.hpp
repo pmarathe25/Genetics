@@ -7,7 +7,6 @@ class GeneticIndividual {
         std::string chromosome;
         double fitnessScore;
     public:
-        GeneticIndividual(const std::string& geneticElements, const int& chromosomeLength);
         GeneticIndividual(const std::string& desiredChromosome);
         std::string getChromosome() const;
         void setChromosome(const std::string& desiredChromosome);

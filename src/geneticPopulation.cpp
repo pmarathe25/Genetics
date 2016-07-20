@@ -3,11 +3,13 @@
 #include <cstdlib>
 #include <iostream>
 
-GeneticPopulation::GeneticPopulation(double (*fitness)(const GeneticIndividual&), const std::string& geneticElements, const std::vector<GeneticIndividual>& initialPopulation) {
+GeneticPopulation::GeneticPopulation(const std::string& geneticElements, const std::vector<GeneticIndividual>& initialPopulation, double mutationRate,
+    double (*fitness)(const GeneticIndividual&)) {
     srand(time(0));
     this -> fitness = fitness;
     this -> geneticElements = geneticElements;
     this -> individuals = initialPopulation;
+    this -> mutationRate = mutationRate;
     // Calculate fitness scores if an initial population is provided.
     if (!individuals.empty()) {
         for (std::vector<GeneticIndividual>::iterator individual = individuals.begin(); individual != individuals.end(); individual++) {
@@ -16,21 +18,30 @@ GeneticPopulation::GeneticPopulation(double (*fitness)(const GeneticIndividual&)
     }
 }
 
-GeneticPopulation::GeneticPopulation(double (*fitness)(const GeneticIndividual&), const std::string& geneticElements, const int& populationSize, const int& chromosomeLength) {
+GeneticPopulation::GeneticPopulation(const std::string& geneticElements, const int& populationSize, const int& chromosomeLength, double mutationRate,
+    double (*fitness)(const GeneticIndividual&)) {
     srand(time(0));
     this -> fitness = fitness;
     this -> geneticElements = geneticElements;
+    this -> mutationRate = mutationRate;
     // Empty the population.
     individuals.clear();
+    // Temporary chromosome.
+    std::string chromosome;
     // Iterate over the number of desired individuals and generate a chromosome for each. Then calculate fitness score.
     for (int i = 0; i < populationSize; i++) {
-        GeneticIndividual individual = GeneticIndividual(geneticElements, chromosomeLength);
+        chromosome.clear();
+        // Generate a new chromosome with the specified parameters.
+        for (int i = 0; i < chromosomeLength; i++) {
+            chromosome.push_back(geneticElements[rand() % geneticElements.size()]);
+        }
+        GeneticIndividual individual = GeneticIndividual(chromosome);
         updateFitness(individual);
         individuals.push_back(individual);
     }
 }
 
-bool GeneticPopulation::evolve(const int& mutationRate) {
+bool GeneticPopulation::evolve() {
     bool populationAlive = false;
     std::vector<GeneticIndividual>::iterator populationEndpoint = individuals.end();
     // Stop when we reach the end of the old generation or when the population is destroyed (i.e. one or fewer individuals remaining).
@@ -49,12 +60,12 @@ bool GeneticPopulation::evolve(const int& mutationRate) {
         }
         // Crossover the survivors if they are fit enough.
         if (((double) rand() / RAND_MAX) < (individuals[a].getFitnessScore() * individuals[b].getFitnessScore())) {
-            GeneticIndividual child = GeneticIndividual(onePointCrossover(individuals[a], individuals[b]));
+            GeneticIndividual child = GeneticIndividual((*crossoverMethod)(individuals[a], individuals[b]));
             updateFitness(child);
             individuals.push_back(child);
         }
         // Apply mutations.
-        if (mutate(*individual, mutationRate, geneticElements)) {
+        if (mutate(*individual, mutationRate)) {
             updateFitness(*individual);
         }
     }
@@ -72,7 +83,7 @@ void GeneticPopulation::setFitnessFunction(double (*fitness)(const GeneticIndivi
     this -> fitness = fitness;
 }
 
-bool GeneticPopulation::mutate(GeneticIndividual& individual, double mutationRate, const std::string& geneticElements) {
+bool GeneticPopulation::mutate(GeneticIndividual& individual, double mutationRate) {
     if (mutationRate == 0) {
         return false;
     }
@@ -89,10 +100,8 @@ bool GeneticPopulation::mutate(GeneticIndividual& individual, double mutationRat
     return mutated;
 }
 
-void GeneticPopulation::setCrossoverMethod(const std::string& newMethod) {
-    if (newMethod.compare("single") == 0) {
-        crossoverMethod = &GeneticPopulation::onePointCrossover;
-    }
+void GeneticPopulation::setCrossoverMethod(CrossoverFunction newMethod) {
+    crossoverMethod = newMethod;
 }
 
 void GeneticPopulation::updateFitness(GeneticIndividual& individual) {
@@ -100,7 +109,7 @@ void GeneticPopulation::updateFitness(GeneticIndividual& individual) {
 }
 
 // Crosses two chromosomes into a single one.
-std::string GeneticPopulation::onePointCrossover(const GeneticIndividual& parentA, const GeneticIndividual& parentB) {
+std::string onePointCrossover(const GeneticIndividual& parentA, const GeneticIndividual& parentB) {
     // The crossover point cannot be the first or last element of the chromosome.
     int crossoverPoint = (rand() % (parentA.getChromosome().size() - 2)) + 1;
     std::string newChromosome = "";
