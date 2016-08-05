@@ -20,7 +20,7 @@ class ComputedPopulation : public GeneticPopulation {
         // Data members.
         bool populationAlive;
         double (*fitness)(const std::string&);
-        std::vector<std::unique_ptr<ComputedIndividual> > individuals;
+        std::vector<ComputedIndividual> individuals;
 };
 
 #endif
